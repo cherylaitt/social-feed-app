@@ -1,5 +1,6 @@
 export type Post = {
   id: string;
+  attachments: any;
   details: {
     post_id: string;
     comments_count: string;

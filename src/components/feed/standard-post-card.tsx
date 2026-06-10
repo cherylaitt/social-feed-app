@@ -71,31 +71,26 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
 
         {!!post?.values &&
           (() => {
-            let parsedImage = null;
-
-            try {
-              if (post?.values?.photo_image) {
-                parsedImage = JSON.parse(post.values.photo_image);
-              }
-            } catch (error) {
-              console.error("Failed to parse image JSON:", error);
-            }
-
             return (
               <>
                 {!!post?.values?.text && (
                   <Text className="mb-4">{post?.values?.text}</Text>
                 )}
 
-                {post?.values?.is_media === "Photo" && parsedImage?.uri && (
-                  <Image
-                    source={{ uri: parsedImage.uri }}
-                    style={{
-                      aspectRatio: 1,
-                      resizeMode: "contain",
-                    }}
-                  />
-                )}
+                {post?.values?.is_media === "Photo" &&
+                  post?.attachments?.length > 0 &&
+                  post?.attachments?.map((attachment: any) => {
+                    return (
+                      <Image
+                        key={attachment.id}
+                        source={{ uri: attachment?.photo_image?.uri }}
+                        style={{
+                          aspectRatio: 1,
+                          resizeMode: "contain",
+                        }}
+                      />
+                    );
+                  })}
               </>
             );
           })()}
