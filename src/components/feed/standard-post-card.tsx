@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
 import { formatCount, formatRelativeTime } from "@/utils/format";
 import { FeedActionButton } from "./feed-action-button";
+import ImageGrid from "./image-grid";
 
 type StandardPostCardProps = {
   post: Post;
@@ -78,19 +79,27 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
                 )}
 
                 {post?.values?.is_media === "Photo" &&
-                  post?.attachments?.length > 0 &&
-                  post?.attachments?.map((attachment: any) => {
-                    return (
-                      <Image
-                        key={attachment.id}
-                        source={{ uri: attachment?.photo_image?.uri }}
-                        style={{
-                          aspectRatio: 1,
-                          resizeMode: "contain",
-                        }}
-                      />
-                    );
-                  })}
+                  post?.attachments?.length > 0 && (
+                    <ImageGrid
+                      images={post.attachments}
+                      onPressImage={() => {}}
+                    />
+                  )}
+
+                {post?.values?.is_media === "Photo" &&
+                  post?.attachments?.all_subattachments?.count > 0 && (
+                    <ImageGrid
+                      images={post.attachments.all_subattachments?.nodes.map(
+                        (node: any) => {
+                          return {
+                            id: node?.media?.id,
+                            photo_image: node?.media?.image,
+                          };
+                        },
+                      )}
+                      onPressImage={() => {}}
+                    />
+                  )}
               </>
             );
           })()}
