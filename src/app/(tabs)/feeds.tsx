@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 import { FeedHeader } from "@/components/feed/feed-header";
-import { PostCard } from "@/components/feed/post-card";
+import { StandardPostCard } from "@/components/feed/standard-post-card";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { usePosts } from "@/hooks/queries/use-posts";
@@ -59,7 +59,9 @@ export default function FeedsScreen() {
   const posts = data?.posts ?? [];
 
   const renderItem = useCallback(
-    ({ item }: { item: Post }) => <PostCard post={item} />,
+    ({ item }: { item: Post }) => (
+      <StandardPostCard post={item} key={item.id} />
+    ),
     [],
   );
 
