@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -13,14 +13,15 @@ import { ThemedView } from "@/components/themed-view";
 import { usePosts } from "@/hooks/queries/use-posts";
 import type { Post } from "@/types/post";
 
-function FeedEmptyState({ pageName }: { pageName: string }) {
+function FeedEmptyState() {
   return (
     <View className="flex-1 items-center justify-center px-8 py-24">
       <ThemedText type="smallBold" className="mb-2 text-center text-lg">
         No posts yet
       </ThemedText>
       <ThemedText className="text-center" themeColor="textSecondary">
-        Posts from @{pageName} will show up here once they are available.
+        Posts from accounts you follow will show up here once they are
+        available.
       </ThemedText>
     </View>
   );
@@ -48,15 +49,41 @@ function FeedErrorState({
   );
 }
 
+// 1. Hardcode your followers here
+const FOLLOWING_ACCOUNTS = ["Adobe", "Apple", "Google"];
+
 export default function FeedsScreen() {
-  const pageName = "Adobe";
-  const { data, error, isLoading, isRefetching, refetch } = usePosts({
-    pageName,
-  });
+  // 2. Call the hook for each hardcoded account
+  // (React requires a fixed number of hook calls, so this is safe for a hardcoded list)
+  const query1 = usePosts({ pageName: FOLLOWING_ACCOUNTS[0] });
+  const query2 = usePosts({ pageName: FOLLOWING_ACCOUNTS[1] });
+  const query3 = usePosts({ pageName: FOLLOWING_ACCOUNTS[2] });
 
-  console.log(data);
+  // Group queries to easily check states
+  const queries = [query1, query2, query3];
 
-  const posts = data?.posts ?? [];
+  const isLoading = queries.some((q) => q.isLoading);
+  const isRefetching = queries.some((q) => q.isRefetching);
+  const error = queries.find((q) => q.error)?.error;
+
+  const refetchAll = useCallback(() => {
+    queries.forEach((q) => {
+      void q.refetch();
+    });
+  }, [query1, query2, query3]);
+
+  // 3. Combine and sort the posts
+  const posts = useMemo(() => {
+    // Extract posts from all successful queries
+    const allPosts = queries.flatMap((q) => q.data?.posts ?? []);
+
+    // Sort by publish time descending
+    return allPosts.sort((a, b) => {
+      const dateA = new Date(a?.values?.publish_time || 0).getTime();
+      const dateB = new Date(b?.values?.publish_time || 0).getTime();
+      return dateB - dateA;
+    });
+  }, [query1.data, query2.data, query3.data]);
 
   const renderItem = useCallback(
     ({ item }: { item: Post }) => (
@@ -69,7 +96,7 @@ export default function FeedsScreen() {
 
   return (
     <ThemedView className="flex-1">
-      <FeedHeader pageName={pageName} />
+      <FeedHeader />
 
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
@@ -80,9 +107,7 @@ export default function FeedsScreen() {
           message={
             error instanceof Error ? error.message : "Something went wrong"
           }
-          onRetry={() => {
-            void refetch();
-          }}
+          onRetry={refetchAll}
         />
       ) : (
         <FlatList
@@ -90,13 +115,11 @@ export default function FeedsScreen() {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           contentContainerClassName={posts.length === 0 ? "flex-1" : undefined}
-          ListEmptyComponent={<FeedEmptyState pageName={pageName} />}
+          ListEmptyComponent={<FeedEmptyState />}
           refreshControl={
             <RefreshControl
               refreshing={isRefetching && !isLoading}
-              onRefresh={() => {
-                void refetch();
-              }}
+              onRefresh={refetchAll}
             />
           }
           showsVerticalScrollIndicator={false}

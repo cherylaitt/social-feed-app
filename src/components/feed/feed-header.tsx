@@ -10,7 +10,7 @@ type FeedHeaderProps = {
   pageName: string;
 };
 
-export function FeedHeader({ pageName }: FeedHeaderProps) {
+export function FeedHeader() {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
@@ -29,9 +29,6 @@ export function FeedHeader({ pageName }: FeedHeaderProps) {
         <View className="items-center">
           <ThemedText type="smallBold" className="text-base">
             Home
-          </ThemedText>
-          <ThemedText type="small" themeColor="textSecondary">
-            @{pageName}
           </ThemedText>
         </View>
 
