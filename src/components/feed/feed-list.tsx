@@ -1,5 +1,6 @@
 import { StandardPostCard } from "@/components/feed/standard-post-card";
 import { ThemedText } from "@/components/themed-text";
+import { useAppStore } from "@/stores/app-store";
 import type { Post } from "@/types/post";
 import {
   ActivityIndicator,
@@ -7,6 +8,7 @@ import {
   RefreshControl,
   View,
 } from "react-native";
+import { CreatorPostCard } from "./creator-post-card";
 
 export default function FeedList({
   posts,
@@ -21,6 +23,8 @@ export default function FeedList({
   error?: any;
   refetchAll: () => void;
 }) {
+  const { feedLayoutMode, showSystemAlert } = useAppStore();
+
   function FeedEmptyState() {
     return (
       <View className="flex-1 items-center justify-center px-8 py-24">
@@ -74,7 +78,13 @@ export default function FeedList({
           data={posts}
           keyExtractor={(post) => post.id}
           renderItem={({ item }: { item: Post }) => (
-            <StandardPostCard post={item} key={item.id} />
+            <>
+              {feedLayoutMode === "standard" ? (
+                <StandardPostCard post={item} key={item.id} />
+              ) : feedLayoutMode === "creatorFirst" ? (
+                <CreatorPostCard post={item} />
+              ) : null}
+            </>
           )}
           contentContainerClassName={posts.length === 0 ? "flex-1" : undefined}
           ListEmptyComponent={<FeedEmptyState />}
