@@ -1,33 +1,39 @@
 export type Post = {
   id: string;
-  attachments: any;
-  details: {
-    post_id: string;
-    comments_count: string;
-    share_count: string;
+  author: {
+    id: string;
+    username: string;
+    fullName: string;
+    avatarUrl: string;
+    isVerified: boolean;
+    followerCount: number;
+    bio: string;
   };
-  reactions: {
-    Angry: number;
-    Like: number;
-    Love: number;
-    Haha: number;
-    Sad: number;
-    Wow: number;
-    Care: number;
-    total_reaction_count: number;
+  content: string;
+  media: Media[];
+  engagement: {
+    likes: number;
+    shares: number;
   };
-  top_comments: any;
-  user_details: {
-    name: string;
-    profile_picture_url: string;
+  timestamp: string;
+  comments: Comment[];
+};
+
+export type Comment = {
+  id: string;
+  author: {
+    username: string;
+    avatarUrl: string;
   };
-  values: {
-    post_id: string;
-    publish_time: string;
-    is_media: string;
-    text: string;
-    photo_image: string;
-  };
+  text: string;
+  timestamp: string;
+};
+
+export type Media = {
+  id: string;
+  type: "image" | "video";
+  url: string;
+  aspectRatio: string;
 };
 
 export type PostsResponse = {

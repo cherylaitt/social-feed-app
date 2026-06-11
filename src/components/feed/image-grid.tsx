@@ -1,7 +1,14 @@
+import { Media } from "@/types/post";
 import { Image } from "expo-image";
 import { Text, TouchableOpacity, View } from "react-native";
 
-const ImageGrid = ({ images, onPressImage }: any) => {
+const ImageGrid = ({
+  images,
+  onPressImage,
+}: {
+  images: Media[];
+  onPressImage: (image: Media) => void;
+}) => {
   if (!images || images.length === 0) return null;
 
   const count = images.length;
@@ -11,11 +18,11 @@ const ImageGrid = ({ images, onPressImage }: any) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => onPressImage(0)}
+        onPress={() => onPressImage(images[0])}
         className="w-full aspect-square"
       >
         <Image
-          source={{ uri: images[0]?.photo_image?.uri }}
+          source={{ uri: images[0]?.url }}
           style={{ flex: 1, width: "100%", height: "100%" }}
           contentFit="cover"
         />
@@ -29,22 +36,22 @@ const ImageGrid = ({ images, onPressImage }: any) => {
       <View className="flex-row gap-1 aspect-square">
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(0)}
+          onPress={() => onPressImage(images[0])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[0]?.photo_image?.uri }}
+            source={{ uri: images[0]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(1)}
+          onPress={() => onPressImage(images[1])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[1]?.photo_image?.uri }}
+            source={{ uri: images[1]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
@@ -59,11 +66,11 @@ const ImageGrid = ({ images, onPressImage }: any) => {
       <View className="flex-row gap-1 aspect-square">
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(0)}
+          onPress={() => onPressImage(images[0])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[0]?.photo_image?.uri }}
+            source={{ uri: images[0]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
@@ -71,22 +78,22 @@ const ImageGrid = ({ images, onPressImage }: any) => {
         <View className="flex-1 gap-1">
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => onPressImage(1)}
+            onPress={() => onPressImage(images[1])}
             className="flex-1"
           >
             <Image
-              source={{ uri: images[1]?.photo_image?.uri }}
+              source={{ uri: images[1]?.url }}
               style={{ flex: 1, width: "100%", height: "100%" }}
               contentFit="cover"
             />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => onPressImage(2)}
+            onPress={() => onPressImage(images[2])}
             className="flex-1"
           >
             <Image
-              source={{ uri: images[2]?.photo_image?.uri }}
+              source={{ uri: images[2]?.url }}
               style={{ flex: 1, width: "100%", height: "100%" }}
               contentFit="cover"
             />
@@ -105,22 +112,22 @@ const ImageGrid = ({ images, onPressImage }: any) => {
       <View className="flex-row flex-1 gap-1">
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(0)}
+          onPress={() => onPressImage(images[0])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[0]?.photo_image?.uri }}
+            source={{ uri: images[0]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(1)}
+          onPress={() => onPressImage(images[1])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[1]?.photo_image?.uri }}
+            source={{ uri: images[1]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
@@ -131,22 +138,22 @@ const ImageGrid = ({ images, onPressImage }: any) => {
       <View className="flex-row flex-1 gap-1">
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(2)}
+          onPress={() => onPressImage(images[2])}
           className="flex-1"
         >
           <Image
-            source={{ uri: images[2]?.photo_image?.uri }}
+            source={{ uri: images[2]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => onPressImage(3)}
+          onPress={() => onPressImage(images[3])}
           className="flex-1 relative"
         >
           <Image
-            source={{ uri: images[3]?.photo_image?.uri }}
+            source={{ uri: images[3]?.url }}
             style={{ flex: 1, width: "100%", height: "100%" }}
             contentFit="cover"
           />

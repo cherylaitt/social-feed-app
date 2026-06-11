@@ -1,16 +1,9 @@
 import { fetchPosts } from "@/api/posts";
 import { useQuery } from "@tanstack/react-query";
 
-export const usePosts = ({
-  pageName,
-  timezone = "UTC",
-}: {
-  pageName: string;
-  timezone?: string;
-}) => {
+export const usePosts = () => {
   return useQuery({
-    queryKey: ["posts", pageName],
-    queryFn: () => fetchPosts({ pageName, timezone }),
-    enabled: !!pageName,
+    queryKey: ["posts"],
+    queryFn: () => fetchPosts(),
   });
 };

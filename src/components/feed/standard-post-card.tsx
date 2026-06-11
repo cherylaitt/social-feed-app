@@ -38,14 +38,8 @@ function Avatar({ name, uri }: { name: string; uri: string }) {
 }
 
 export function StandardPostCard({ post }: StandardPostCardProps) {
-  console.log(post);
-
-  const userDetails = post?.user_details;
-
   const engagementTotal =
-    post?.reactions?.total_reaction_count +
-    parseInt(post?.details?.comments_count) +
-    parseInt(post?.details?.share_count);
+    post?.engagement?.likes + post?.engagement?.shares + post?.comments?.length;
 
   return (
     <ThemedView className="border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
@@ -55,73 +49,44 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
         onPress={() => {}}
       >
         <View className="flex-row gap-3 mb-4">
-          <Avatar
-            name={userDetails?.name}
-            uri={userDetails?.profile_picture_url}
-          />
+          <Avatar name={post?.author?.username} uri={post?.author?.avatarUrl} />
 
           <View className="flex-1 gap-1">
             <View className="flex-row flex-wrap items-center gap-x-1.5">
-              <ThemedText type="smallBold">{userDetails?.name}</ThemedText>
+              <ThemedText type="smallBold">
+                {post?.author?.fullName || post?.author?.username}
+              </ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
-                {formatRelativeTime(post.values.publish_time)}
+                {formatRelativeTime(post?.timestamp)}
               </ThemedText>
             </View>
           </View>
         </View>
 
-        {!!post?.values &&
-          (() => {
-            return (
-              <>
-                {!!post?.values?.text && (
-                  <Text className="mb-4">{post?.values?.text}</Text>
-                )}
+        {!!post?.content && <Text className="mb-4">{post.content}</Text>}
 
-                {post?.values?.is_media === "Photo" &&
-                  post?.attachments?.length > 0 && (
-                    <ImageGrid
-                      images={post.attachments}
-                      onPressImage={() => {}}
-                    />
-                  )}
-
-                {post?.values?.is_media === "Photo" &&
-                  post?.attachments?.all_subattachments?.count > 0 && (
-                    <ImageGrid
-                      images={post.attachments.all_subattachments?.nodes.map(
-                        (node: any) => {
-                          return {
-                            id: node?.media?.id,
-                            photo_image: node?.media?.image,
-                          };
-                        },
-                      )}
-                      onPressImage={() => {}}
-                    />
-                  )}
-              </>
-            );
-          })()}
+        {!!post?.media && post.media?.length > 0 && (
+          <ImageGrid images={post.media} onPressImage={() => {}} />
+        )}
       </Pressable>
 
       {engagementTotal > 0 ? (
         <View className="mt-2 flex-row items-center justify-between px-1">
           <ThemedText type="small" themeColor="textSecondary">
-            {formatCount(post?.reactions?.total_reaction_count)} likes
+            {formatCount(post?.engagement?.likes)} likes
           </ThemedText>
           <ThemedText type="small" themeColor="textSecondary">
-            {formatCount(parseInt(post?.details?.comments_count))} comments ·{" "}
-            {formatCount(parseInt(post?.details?.share_count))} shares
+            {formatCount(post?.comments?.length)} comments ·{" "}
+            {formatCount(post?.engagement?.shares)} shares
           </ThemedText>
         </View>
       ) : null}
 
       <View className="mt-1 flex-row border-t border-neutral-200 pt-1 dark:border-neutral-800">
         <FeedActionButton
-          icon={{ ios: "hand.thumbsup", android: "thumb_up", web: "thumb_up" }}
+          icon={{ ios: "heart", android: "favorite", web: "favorite" }}
           label="Like"
-          count={post?.reactions?.total_reaction_count ?? 0}
+          count={post?.engagement?.likes ?? 0}
         />
         <FeedActionButton
           icon={{
@@ -130,7 +95,7 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
             web: "chat_bubble",
           }}
           label="Comment"
-          count={parseInt(post?.details?.comments_count) ?? 0}
+          count={post?.comments?.length ?? 0}
         />
         <FeedActionButton
           icon={{
@@ -139,7 +104,7 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
             web: "share",
           }}
           label="Share"
-          count={parseInt(post?.details?.share_count) ?? 0}
+          count={post?.engagement?.shares ?? 0}
         />
       </View>
     </ThemedView>
