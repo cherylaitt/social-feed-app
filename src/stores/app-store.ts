@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type FeedLayoutMode = "standard" | "creator_first";
+export type FeedLayoutMode = "standard" | "creatorFirst";
 
 type AppState = {
   feedLayoutMode: FeedLayoutMode;

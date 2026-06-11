@@ -11,6 +11,9 @@ export default function ControlPanelScreen() {
     toggleSystemAlert,
   } = useAppStore();
 
+  console.log("feedLayoutMode", feedLayoutMode);
+  console.log("showSystemAlert", showSystemAlert);
+
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <ThemedView className="flex-1 p-6">
@@ -19,8 +22,7 @@ export default function ControlPanelScreen() {
           <Text className="text-[20px] text-gray-500 mt-2">Control Panel</Text>
         </View>
 
-        {/* --- Layout Mode Toggle --- */}
-        <View className="p-5 rounded-2xl shadow-sm mb-6">
+        <View className="py-5 mb-6">
           <Text className="text-lg font-bold text-gray-800 mb-4">
             Feed Layout Mode
           </Text>
@@ -30,7 +32,7 @@ export default function ControlPanelScreen() {
             <TouchableOpacity
               onPress={() => setFeedLayoutMode("standard")}
               className={`flex-1 py-3 rounded-lg items-center ${
-                feedLayoutMode === "standard" ? "bg-white shadow-sm" : ""
+                feedLayoutMode === "standard" ? "bg-white" : ""
               }`}
             >
               <Text
@@ -45,14 +47,14 @@ export default function ControlPanelScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => setFeedLayoutMode("creator_first")}
+              onPress={() => setFeedLayoutMode("creatorFirst")}
               className={`flex-1 py-3 rounded-lg items-center ${
-                feedLayoutMode === "creator_first" ? "bg-white shadow-sm" : ""
+                feedLayoutMode === "creatorFirst" ? "bg-white" : ""
               }`}
             >
               <Text
                 className={`font-semibold ${
-                  feedLayoutMode === "creator_first"
+                  feedLayoutMode === "creatorFirst"
                     ? "text-blue-600"
                     : "text-gray-500"
                 }`}
@@ -61,15 +63,10 @@ export default function ControlPanelScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <Text className="text-sm text-gray-400 mt-3 leading-5">
-            Instantly swaps the main feed UI between traditional microblogging
-            and immersive media modes.
-          </Text>
         </View>
 
-        {/* --- System Alert Toggle --- */}
-        <View className="bg-white p-5 rounded-2xl shadow-sm flex-row justify-between items-center mb-6">
+        {/* Toggle */}
+        <View className="py-5 rounded-2xl flex-row justify-between items-center mb-6">
           <View className="flex-1 pr-4">
             <Text className="text-lg font-bold text-gray-800">
               System Alert Banner
