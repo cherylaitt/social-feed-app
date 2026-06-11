@@ -61,8 +61,6 @@ export default function FeedList({
     );
   }
 
-  console.log("posts", posts);
-
   return (
     <>
       {isLoading ? (

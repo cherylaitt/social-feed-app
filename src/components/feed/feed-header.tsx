@@ -6,10 +6,6 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { useTheme } from "@/hooks/use-theme";
 
-type FeedHeaderProps = {
-  pageName: string;
-};
-
 export function FeedHeader() {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
@@ -32,11 +28,13 @@ export function FeedHeader() {
           </ThemedText>
         </View>
 
-        <SymbolView
+        <View></View>
+
+        {/* <SymbolView
           name={{ ios: "magnifyingglass", android: "search", web: "search" }}
           size={22}
           tintColor={theme.text}
-        />
+        /> */}
       </View>
     </ThemedView>
   );

@@ -1,41 +1,16 @@
-import { Image } from "expo-image";
 import { Pressable, Text, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
 import { formatCount, formatRelativeTime } from "@/utils/format";
+import Avatar from "../ui/avatar";
 import { FeedActionButton } from "./feed-action-button";
 import ImageGrid from "./image-grid";
 
 type StandardPostCardProps = {
   post: Post;
 };
-
-function Avatar({ name, uri }: { name: string; uri: string }) {
-  const initial = name.charAt(0).toUpperCase();
-
-  if (uri) {
-    return (
-      <Image
-        source={{ uri: uri }}
-        style={{
-          aspectRatio: 1,
-          resizeMode: "cover",
-        }}
-        contentFit="cover"
-      />
-    );
-  }
-
-  return (
-    <View className="h-10 w-10 items-center justify-center rounded-full bg-blue-500">
-      <ThemedText type="smallBold" style={{ color: "#ffffff" }}>
-        {initial}
-      </ThemedText>
-    </View>
-  );
-}
 
 export function StandardPostCard({ post }: StandardPostCardProps) {
   const engagementTotal =
@@ -48,8 +23,8 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
         className="active:opacity-80"
         onPress={() => {}}
       >
-        <View className="flex-row gap-3 mb-4">
-          <Avatar name={post?.author?.username} uri={post?.author?.avatarUrl} />
+        <View className="flex-row gap-3 mb-4 items-center">
+          <Avatar uri={post?.author?.avatarUrl} />
 
           <View className="flex-1 gap-1">
             <View className="flex-row flex-wrap items-center gap-x-1.5">
@@ -82,7 +57,7 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
         </View>
       ) : null}
 
-      <View className="mt-1 flex-row border-t border-neutral-200 pt-1 dark:border-neutral-800">
+      <View className="mt-1 flex-row items-center border-t border-neutral-200 pt-1 dark:border-neutral-800">
         <FeedActionButton
           icon={{ ios: "heart", android: "favorite", web: "favorite" }}
           label="Like"

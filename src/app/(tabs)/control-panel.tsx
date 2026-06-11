@@ -11,9 +11,6 @@ export default function ControlPanelScreen() {
     toggleSystemAlert,
   } = useAppStore();
 
-  console.log("feedLayoutMode", feedLayoutMode);
-  console.log("showSystemAlert", showSystemAlert);
-
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <ThemedView className="flex-1 p-6">
