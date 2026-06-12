@@ -4,10 +4,12 @@ export default function FeedActionButtonGroup({
   likeNum,
   commentNum,
   shareNum,
+  onCommentPress,
 }: {
   likeNum: number;
   commentNum: number;
   shareNum: number;
+  onCommentPress?: () => void;
 }) {
   return (
     <>
@@ -24,6 +26,7 @@ export default function FeedActionButtonGroup({
         }}
         label="Comment"
         count={commentNum}
+        onPress={onCommentPress}
       />
       <FeedActionButton
         icon={{

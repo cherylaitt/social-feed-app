@@ -10,9 +10,13 @@ import ImageCarousel from "./image-carousel";
 
 type CreatorPostCardProps = {
   post: Post;
+  onCommentPress: () => void;
 };
 
-export function CreatorPostCard({ post }: CreatorPostCardProps) {
+export function CreatorPostCard({
+  post,
+  onCommentPress,
+}: CreatorPostCardProps) {
   return (
     <ThemedView className="border-b border-neutral-200 pb-4 mb-4 dark:border-neutral-800">
       <View className="flex-row items-center justify-between px-4 py-3">
@@ -42,11 +46,12 @@ export function CreatorPostCard({ post }: CreatorPostCardProps) {
             likeNum={post?.engagement?.likes ?? 0}
             commentNum={post?.comments?.length ?? 0}
             shareNum={post?.engagement?.shares ?? 0}
+            onCommentPress={onCommentPress}
           />
         </View>
       </View>
 
-      <View className="px-4">
+      <View className="px-4 mb-4">
         {!!post?.content && (
           <Text className="text-[15px] leading-5 text-neutral-900 dark:text-neutral-100">
             <Text className="font-bold">{post?.author?.username} </Text>
