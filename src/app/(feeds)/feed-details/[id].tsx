@@ -3,7 +3,7 @@ import StandardPostContent from "@/components/feed/standard/standard-post-conten
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
-import BackButton from "@/components/ui/back-button";
+import ScreenLayout from "@/components/ui/screen-layout";
 import { usePost } from "@/hooks/queries/use-post";
 import { Post } from "@/types/post";
 import { formatRelativeTime } from "@/utils/format";
@@ -64,11 +64,7 @@ export default function FeedDetailsScreen() {
   );
 
   return (
-    <ThemedView className="flex-1" style={{ paddingTop: insets.top }}>
-      <View className="px-4 py-2 flex-row items-center justify-left border-b border-neutral-200 dark:border-neutral-800">
-        <BackButton />
-      </View>
-
+    <ScreenLayout isBackButtonShown title="Feed">
       <FlatList
         data={data?.comments || []}
         keyExtractor={(item) => item.id}
@@ -85,6 +81,6 @@ export default function FeedDetailsScreen() {
         refreshing={isRefetching}
         onRefresh={refetch}
       />
-    </ThemedView>
+    </ScreenLayout>
   );
 }

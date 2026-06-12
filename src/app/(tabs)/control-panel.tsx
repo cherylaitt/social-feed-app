@@ -1,7 +1,7 @@
 import { ThemedView } from "@/components/themed-view";
+import ScreenLayout from "@/components/ui/screen-layout";
 import { useAppStore } from "@/stores/app-store";
 import { Switch, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ControlPanelScreen() {
   const {
@@ -12,7 +12,7 @@ export default function ControlPanelScreen() {
   } = useAppStore();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <ScreenLayout title="Control Panel" isMyIconShown>
       <ThemedView className="flex-1 p-6">
         {/* Header */}
         <View className="mb-8">
@@ -83,6 +83,6 @@ export default function ControlPanelScreen() {
           />
         </View>
       </ThemedView>
-    </SafeAreaView>
+    </ScreenLayout>
   );
 }

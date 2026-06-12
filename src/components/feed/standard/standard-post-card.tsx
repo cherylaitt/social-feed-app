@@ -50,6 +50,12 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
           likeNum={post?.engagement?.likes ?? 0}
           commentNum={post?.comments?.length ?? 0}
           shareNum={post?.engagement?.shares ?? 0}
+          onCommentPress={() =>
+            router.navigate({
+              pathname: "/(feeds)/feed-details/[id]",
+              params: { id: post?.id },
+            })
+          }
         />
       </View>
     </ThemedView>

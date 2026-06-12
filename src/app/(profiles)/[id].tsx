@@ -1,8 +1,8 @@
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
-import BackButton from "@/components/ui/back-button";
 import Button from "@/components/ui/button";
+import ScreenLayout from "@/components/ui/screen-layout";
 import { useUser } from "@/hooks/queries/use-user";
 import { formatCount } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
@@ -41,14 +41,7 @@ export default function UserProfileScreen() {
   }
 
   return (
-    <ThemedView className="flex-1" style={{ paddingTop: insets.top }}>
-      <View className="px-4 py-2 flex-row items-center border-b border-neutral-100 dark:border-neutral-900">
-        <BackButton />
-        <ThemedText type="smallBold" className="ml-2 text-lg">
-          {user.username}
-        </ThemedText>
-      </View>
-
+    <ScreenLayout title={user.username} isBackButtonShown>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -160,6 +153,6 @@ export default function UserProfileScreen() {
           </ThemedText>
         </View>
       </ScrollView>
-    </ThemedView>
+    </ScreenLayout>
   );
 }

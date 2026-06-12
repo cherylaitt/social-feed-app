@@ -25,7 +25,7 @@ export default function FeedList({
   error?: any;
   refetchAll: () => void;
 }) {
-  const { feedLayoutMode, showSystemAlert } = useAppStore();
+  const { feedLayoutMode } = useAppStore();
 
   // for creator-first mode
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);

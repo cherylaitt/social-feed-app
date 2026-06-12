@@ -1,17 +1,23 @@
-import { FeedHeader } from "@/components/feed/feed-header";
 import FeedList from "@/components/feed/feed-list";
-import { ThemedView } from "@/components/themed-view";
+import ScreenLayout from "@/components/ui/screen-layout";
 import { usePosts } from "@/hooks/queries/use-posts";
+import { useAppStore } from "@/stores/app-store";
+import { Text, View } from "react-native";
 
 export default function FeedsScreen() {
   const { data, isLoading, isRefetching, refetch, error } = usePosts();
 
   const posts = data?.posts || [];
 
-  return (
-    <ThemedView className="flex-1">
-      <FeedHeader />
+  const { showSystemAlert } = useAppStore();
 
+  return (
+    <ScreenLayout title="Home" isBackButtonShown={false} isMyIconShown={true}>
+      {showSystemAlert && (
+        <View>
+          <Text>System Alert!</Text>
+        </View>
+      )}
       <FeedList
         error={error}
         posts={posts}
@@ -19,6 +25,6 @@ export default function FeedsScreen() {
         isRefetching={isRefetching}
         refetchAll={refetch}
       />
-    </ThemedView>
+    </ScreenLayout>
   );
 }
