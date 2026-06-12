@@ -4,8 +4,8 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
 import { formatCount, formatRelativeTime } from "@/utils/format";
-import Avatar from "../ui/avatar";
-import { FeedActionButton } from "./feed-action-button";
+import Avatar from "../../ui/avatar";
+import { FeedActionButton } from "../shared/feed-action-button";
 import ImageCarousel from "./image-carousel";
 
 type CreatorPostCardProps = {
@@ -14,7 +14,7 @@ type CreatorPostCardProps = {
 
 export function CreatorPostCard({ post }: CreatorPostCardProps) {
   return (
-    <ThemedView className="border-b border-neutral-200 pb-4 mb-2 dark:border-neutral-800">
+    <ThemedView className="border-b border-neutral-200 pb-4 mb-4 dark:border-neutral-800">
       <View className="flex-row items-center justify-between px-4 py-3">
         <View className="flex-row items-center gap-3">
           <Avatar uri={post?.author?.avatarUrl} />

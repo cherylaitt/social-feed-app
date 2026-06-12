@@ -1,4 +1,4 @@
-import { StandardPostCard } from "@/components/feed/standard-post-card";
+import { StandardPostCard } from "@/components/feed/standard/standard-post-card";
 import { ThemedText } from "@/components/themed-text";
 import { useAppStore } from "@/stores/app-store";
 import type { Post } from "@/types/post";
@@ -8,7 +8,7 @@ import {
   RefreshControl,
   View,
 } from "react-native";
-import { CreatorPostCard } from "./creator-post-card";
+import { CreatorPostCard } from "./creator/creator-post-card";
 
 export default function FeedList({
   posts,
@@ -80,7 +80,7 @@ export default function FeedList({
           renderItem={({ item }: { item: Post }) => (
             <>
               {feedLayoutMode === "standard" ? (
-                <StandardPostCard post={item} key={item.id} />
+                <StandardPostCard post={item} />
               ) : feedLayoutMode === "creatorFirst" ? (
                 <CreatorPostCard post={item} />
               ) : null}

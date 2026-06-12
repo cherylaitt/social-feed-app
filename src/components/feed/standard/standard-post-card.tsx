@@ -4,8 +4,8 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
 import { formatCount, formatRelativeTime } from "@/utils/format";
-import Avatar from "../ui/avatar";
-import { FeedActionButton } from "./feed-action-button";
+import Avatar from "../../ui/avatar";
+import { FeedActionButton } from "../shared/feed-action-button";
 import ImageGrid from "./image-grid";
 
 type StandardPostCardProps = {
