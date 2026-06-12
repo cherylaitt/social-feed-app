@@ -4,7 +4,7 @@ export default function FeedsLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="feed-details"
+        name="feed-details/[id]"
         options={{
           headerShown: false,
         }}
