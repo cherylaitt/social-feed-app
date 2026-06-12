@@ -31,19 +31,19 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
         }
       >
         <StandardPostContent post={post} />
-      </Pressable>
 
-      {engagementTotal > 0 ? (
-        <View className="mt-2 flex-row items-center justify-between px-1">
-          <ThemedText type="small" themeColor="textSecondary">
-            {formatCount(post?.engagement?.likes)} likes
-          </ThemedText>
-          <ThemedText type="small" themeColor="textSecondary">
-            {formatCount(post?.comments?.length)} comments ·{" "}
-            {formatCount(post?.engagement?.shares)} shares
-          </ThemedText>
-        </View>
-      ) : null}
+        {engagementTotal > 0 ? (
+          <View className="mt-4 flex-row items-center justify-between px-1">
+            <ThemedText type="small" themeColor="textSecondary">
+              {formatCount(post?.engagement?.likes)} likes
+            </ThemedText>
+            <ThemedText type="small" themeColor="textSecondary">
+              {formatCount(post?.comments?.length)} comments ·{" "}
+              {formatCount(post?.engagement?.shares)} shares
+            </ThemedText>
+          </View>
+        ) : null}
+      </Pressable>
 
       <View className="mt-1 flex-row items-center border-t border-neutral-200 pt-1 dark:border-neutral-800">
         <FeedActionButtonGroup

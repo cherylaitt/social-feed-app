@@ -1,11 +1,11 @@
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
-import { formatCount, formatRelativeTime } from "@/utils/format";
+import { formatRelativeTime } from "@/utils/format";
 import Avatar from "../../ui/avatar";
-import { FeedActionButton } from "../shared/feed-action-button";
+import FeedActionButtonGroup from "../shared/feed-action-button-group";
 import ImageCarousel from "./image-carousel";
 
 type CreatorPostCardProps = {
@@ -20,16 +20,16 @@ export function CreatorPostCard({ post }: CreatorPostCardProps) {
           <Avatar uri={post?.author?.avatarUrl} />
           <View>
             <ThemedText type="smallBold">{post?.author?.username}</ThemedText>
-            <Text className="text-gray-100 mt-1 text-sm">
-              {formatRelativeTime(post?.timestamp).toUpperCase()}
-            </Text>
+            <ThemedText type="small" themeColor="textSecondary">
+              {formatRelativeTime(post?.timestamp)}
+            </ThemedText>
           </View>
         </View>
-        <Pressable className="p-2">
+        {/* <Pressable className="p-2">
           <ThemedText type="smallBold" className="text-neutral-500">
             •••
           </ThemedText>
-        </Pressable>
+        </Pressable> */}
       </View>
 
       {!!post?.media && post.media?.length > 0 && (
@@ -38,50 +38,20 @@ export function CreatorPostCard({ post }: CreatorPostCardProps) {
 
       <View className="flex-row items-center justify-between px-2 pt-3 pb-1">
         <View className="flex-row items-center gap-2">
-          <FeedActionButton
-            icon={{ ios: "heart", android: "favorite", web: "favorite" }}
-            count={0}
-            label=""
-          />
-          <FeedActionButton
-            icon={{
-              ios: "bubble.right",
-              android: "chat_bubble_outline",
-              web: "chat_bubble",
-            }}
-            count={0}
-            label=""
-          />
-          <FeedActionButton
-            icon={{ ios: "paperplane", android: "send", web: "send" }}
-            count={0}
-            label=""
+          <FeedActionButtonGroup
+            likeNum={post?.engagement?.likes ?? 0}
+            commentNum={post?.comments?.length ?? 0}
+            shareNum={post?.engagement?.shares ?? 0}
           />
         </View>
       </View>
 
-      <View className="px-4 gap-1.5">
-        {/* Likes */}
-        {post?.engagement?.likes > 0 && (
-          <ThemedText type="smallBold">
-            {formatCount(post.engagement.likes)} likes
-          </ThemedText>
-        )}
-
+      <View className="px-4">
         {!!post?.content && (
           <Text className="text-[15px] leading-5 text-neutral-900 dark:text-neutral-100">
             <Text className="font-bold">{post?.author?.username} </Text>
             {post.content}
           </Text>
-        )}
-
-        {/* Comments Link */}
-        {post?.comments?.length > 0 && (
-          <Pressable className="mt-1">
-            <ThemedText type="default" className="text-neutral-500">
-              View all {formatCount(post.comments.length)} comments
-            </ThemedText>
-          </Pressable>
         )}
       </View>
     </ThemedView>
