@@ -21,6 +21,7 @@ export default function TabLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(feeds)" options={{ headerShown: false }} />
+        <Stack.Screen name="(profiles)" options={{ headerShown: false }} />
       </Stack>
     );
   }
