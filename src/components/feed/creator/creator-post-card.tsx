@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import type { Post } from "@/types/post";
 import { formatRelativeTime } from "@/utils/format";
+import { useRouter } from "expo-router";
 import Avatar from "../../ui/avatar";
 import FeedActionButtonGroup from "../shared/feed-action-button-group";
 import ImageCarousel from "./image-carousel";
@@ -17,18 +18,29 @@ export function CreatorPostCard({
   post,
   onCommentPress,
 }: CreatorPostCardProps) {
+  const router = useRouter();
+
   return (
     <ThemedView className="border-b border-neutral-200 pb-4 mb-4 dark:border-neutral-800">
       <View className="flex-row items-center justify-between px-4 py-3">
-        <View className="flex-row items-center gap-3">
-          <Avatar uri={post?.author?.avatarUrl} />
-          <View>
-            <ThemedText type="smallBold">{post?.author?.username}</ThemedText>
-            <ThemedText type="small" themeColor="textSecondary">
-              {formatRelativeTime(post?.timestamp)}
-            </ThemedText>
+        <Pressable
+          onPress={() =>
+            router.navigate({
+              pathname: "/(profiles)/[id]",
+              params: { id: post?.author?.id },
+            })
+          }
+        >
+          <View className="flex-row items-center gap-3">
+            <Avatar uri={post?.author?.avatarUrl} />
+            <View>
+              <ThemedText type="smallBold">{post?.author?.username}</ThemedText>
+              <ThemedText type="small" themeColor="textSecondary">
+                {formatRelativeTime(post?.timestamp)}
+              </ThemedText>
+            </View>
           </View>
-        </View>
+        </Pressable>
         {/* <Pressable className="p-2">
           <ThemedText type="smallBold" className="text-neutral-500">
             •••
