@@ -1,6 +1,6 @@
-# Welcome to your Expo app 👋
+# Welcome to Social Feed App 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern, high-performance React Native social feed application built with Expo. This project demonstrates advanced UI/UX patterns, including dynamic layout switching (Standard vs. Creator-First), fluid gesture-based interactions, and a clean, scalable architecture.
 
 ## Get started
 
@@ -13,7 +13,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-   npx expo start
+   npx expo start -c
    ```
 
 In the output, you'll find options to open the app in a
@@ -23,23 +23,45 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🏗️ Architectural Choices
 
-## Get a fresh project
+### Component Pattern: Strategy Pattern ("Smart Wrapper, Dumb UI")
 
-When you're ready, run:
+- The application separates data fetching and business logic from the visual presentation.
+- By using a "Smart Wrapper" to handle the data and passing it down to "Dumb UI" components, the visual components stay strictly focused on their specific layout.
+- This makes them significantly easier to style, test, and debug.
 
-```bash
-npm run reset-project
-```
+## 📦 Libraries & Tech Stack
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Core Architecture
 
-### Other setup steps
+- Expo Router: File-based routing for seamless navigation and deep linking.
+- NativeWind: Tailwind CSS for React Native, providing utility-first styling and easy theming.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### State & Data Management
+
+- Zustand (Global State): Used for global flags (like toggling feed layouts). It is lightweight, fast, requires zero boilerplate, and prevents unnecessary re-renders—crucial when swapping heavy UI components.
+
+- TanStack Query (Data Fetching): Handles API requests, caching, and provides built-in loading/error states for rendering UI skeletons.
+
+### UI & Gestures
+
+#### @gorhom/bottom-sheet (For Comments section in Creator-first mode)
+
+- Why: It is the industry standard for bottom sheets, offering true 60fps fluid gestures, deep customization, and internal scrolling support.
+- Alternatives considered:
+  - react-native-modal: Too simple, lacks true swipeable gestures.
+  - Expo Router (formSheet): Navigates to a new screen rather than overlaying the current one.
+- Verdict: @gorhom/bottom-sheet was chosen to demonstrate professional, high-quality UI skills akin to top-tier apps like Instagram or TikTok.
+
+#### react-native-image-viewing (For Full-Screen Media)
+
+- Why: A highly reliable, production-ready modal component that handles image pagination, pinch-to-zoom, and the crucial "swipe down to dismiss" gesture out of the box. It maps perfectly to our Media[] data structure and keeps parent components clean via a declarative API.
+- Alternatives considered:
+  - react-native-image-zoom-viewer: Historically popular but currently unmaintained and causes strict mode warnings.
+  - react-native-awesome-gallery: Offers peak performance but requires too much boilerplate (custom modals, close buttons, pagination).
+  - Custom Reanimated 3 Build: Great for custom shared-element transitions but notoriously difficult and time-consuming to perfect edge-case gesture math.
+- Verdict: It provides the exact "Twitter/Instagram" gesture standard users expect, works flawlessly with Expo, and took minimal time to drop into the existing ImageGrid and ImageCarousel components.
 
 ## Learn more
 

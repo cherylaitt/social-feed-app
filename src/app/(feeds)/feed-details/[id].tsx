@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
 import ScreenLayout from "@/components/ui/screen-layout";
 import { usePost } from "@/hooks/queries/use-post";
+import { normalize } from "@/hooks/use-scaling";
 import { Post } from "@/types/post";
 import { formatRelativeTime } from "@/utils/format";
 import { useLocalSearchParams } from "expo-router";
@@ -49,16 +50,16 @@ export default function FeedDetailsScreen() {
 
       <View className="flex-1">
         <View className="flex-row items-center gap-2 mb-2">
-          <ThemedText type="smallBold" className="text-[14px]">
-            {item.author?.username}
-          </ThemedText>
+          <ThemedText type="smallBold">{item.author?.username}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary">
             {formatRelativeTime(item.timestamp)}
           </ThemedText>
         </View>
 
         {/* Comment Text */}
-        <Text className="text-[14px] leading-5">{item.text}</Text>
+        <Text className="leading-5" style={{ fontSize: normalize(14) }}>
+          {item.text}
+        </Text>
       </View>
     </View>
   );

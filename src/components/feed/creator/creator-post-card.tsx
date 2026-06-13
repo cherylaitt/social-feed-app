@@ -2,6 +2,7 @@ import { Pressable, Text, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { normalize } from "@/hooks/use-scaling";
 import type { Post } from "@/types/post";
 import { formatRelativeTime } from "@/utils/format";
 import { useRouter } from "expo-router";
@@ -34,7 +35,7 @@ export function CreatorPostCard({
           <View className="flex-row items-center gap-3">
             <Avatar uri={post?.author?.avatarUrl} />
             <View>
-              <ThemedText type="smallBold">{post?.author?.username}</ThemedText>
+              <ThemedText type="smallBold">{post?.author?.fullName}</ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
                 {formatRelativeTime(post?.timestamp)}
               </ThemedText>
@@ -65,8 +66,13 @@ export function CreatorPostCard({
 
       <View className="px-4 mb-4">
         {!!post?.content && (
-          <Text className="text-[15px] leading-5 text-neutral-900 dark:text-neutral-100">
-            <Text className="font-bold">{post?.author?.username} </Text>
+          <Text
+            className="leading-5 text-neutral-900 dark:text-neutral-100"
+            style={{ fontSize: normalize(15) }}
+          >
+            <Text className="font-bold" style={{ fontSize: normalize(15) }}>
+              {post?.author?.username}{" "}
+            </Text>
             {post.content}
           </Text>
         )}
