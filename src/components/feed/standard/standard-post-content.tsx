@@ -38,7 +38,7 @@ export default function StandardPostContent({ post }: { post: Post }) {
       {!!post?.content && <Text className="mb-4">{post.content}</Text>}
 
       {!!post?.media && post.media?.length > 0 && (
-        <ImageGrid images={post.media} onPressImage={() => {}} />
+        <ImageGrid images={post.media} />
       )}
     </>
   );
