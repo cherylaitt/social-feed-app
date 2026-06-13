@@ -14,8 +14,8 @@ export default function FeedsScreen() {
   return (
     <ScreenLayout title="Home" isBackButtonShown={false} isMyIconShown={true}>
       {showSystemAlert && (
-        <View>
-          <Text>System Alert!</Text>
+        <View className="bg-red-600 p-4">
+          <Text className="text-white">System Alert!</Text>
         </View>
       )}
       <FeedList
