@@ -18,6 +18,8 @@ export function StandardPostCard({ post }: StandardPostCardProps) {
   const engagementTotal =
     post?.engagement?.likes + post?.engagement?.shares + post?.comments?.length;
 
+  console.log("post", post);
+
   return (
     <ThemedView className="border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
       <Pressable

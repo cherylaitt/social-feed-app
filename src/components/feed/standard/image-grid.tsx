@@ -43,7 +43,7 @@ const ImageGrid = ({ images }: { images: Media[] }) => {
     // 2 Images Layout: Side by side (50/50)
     if (count === 2) {
       return (
-        <View className="flex-row gap-1 aspect-square">
+        <View className="flex-row gap-1 aspect-square w-full">
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => handleImagePress(0, images[0])}
@@ -73,7 +73,7 @@ const ImageGrid = ({ images }: { images: Media[] }) => {
     // 3 Images Layout: 1 Large on left, 2 Small stacked on right
     if (count === 3) {
       return (
-        <View className="flex-row gap-1 aspect-square">
+        <View className="flex-row gap-1 aspect-square w-full">
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => handleImagePress(0, images[0])}
@@ -117,7 +117,7 @@ const ImageGrid = ({ images }: { images: Media[] }) => {
     const remainingCount = count - 4;
 
     return (
-      <View className="flex-col gap-1 aspect-square">
+      <View className="flex-col gap-1 aspect-square w-full">
         <View className="flex-row flex-1 gap-1">
           <TouchableOpacity
             activeOpacity={0.8}

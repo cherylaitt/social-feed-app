@@ -1,9 +1,13 @@
+import CreatorProfileFeed from "@/components/profile/creator-profile-feed";
+import StandardProfileFeed from "@/components/profile/standard-profile-feed";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
 import ScreenLayout from "@/components/ui/screen-layout";
+import { usePostsByUser } from "@/hooks/queries/use-posts-by-user";
 import { useUser } from "@/hooks/queries/use-user";
+import { useAppStore } from "@/stores/app-store";
 import { formatCount } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
@@ -20,6 +24,10 @@ export default function UserProfileScreen() {
   const { id } = useLocalSearchParams();
   const insets = useSafeAreaInsets();
 
+  const { feedLayoutMode } = useAppStore();
+
+  const [isFollowing, setIsFollowing] = useState(false);
+
   const {
     data: user,
     isLoading,
@@ -27,7 +35,17 @@ export default function UserProfileScreen() {
     refetch,
   } = useUser(id as string);
 
-  const [isFollowing, setIsFollowing] = useState(false);
+  const {
+    data: postsData,
+    isLoading: isPostsLoading,
+    isRefetching: isPostsRefetching,
+    refetch: refetchPosts,
+  } = usePostsByUser(id as string);
+
+  const handleRefresh = () => {
+    refetch();
+    refetchPosts();
+  };
 
   if (isLoading || !user) {
     return (
@@ -40,14 +58,16 @@ export default function UserProfileScreen() {
     );
   }
 
+  const posts = postsData?.posts || [];
+
   return (
     <ScreenLayout title={user.username} isBackButtonShown>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={isRefetching && !isLoading}
-            onRefresh={refetch}
+            refreshing={(isRefetching || isPostsRefetching) && !isLoading}
+            onRefresh={handleRefresh}
           />
         }
       >
@@ -82,7 +102,7 @@ export default function UserProfileScreen() {
           </View>
         </View>
 
-        <View className="px-4 pt-3 pb-4 border-b border-neutral-200 dark:border-neutral-800">
+        <View className="px-4 pt-3 pb-4">
           <View className="flex-row items-center">
             <ThemedText type="smallBold" className="text-[16px]">
               {user.fullName}
@@ -146,11 +166,20 @@ export default function UserProfileScreen() {
           </Button>
         </View>
 
-        {/* User's Posts Feed (Placeholder) */}
-        <View className="py-8 items-center">
-          <ThemedText themeColor="textSecondary">
-            Posts will appear here.
-          </ThemedText>
+        <View className="py-8">
+          {isPostsLoading ? (
+            <View className="py-8 items-center">
+              <ActivityIndicator size="small" color="#3b82f6" />
+            </View>
+          ) : posts.length === 0 ? (
+            <View className="py-8 items-center">
+              <ThemedText themeColor="textSecondary">No posts yet.</ThemedText>
+            </View>
+          ) : feedLayoutMode === "creatorFirst" ? (
+            <CreatorProfileFeed posts={posts} />
+          ) : (
+            <StandardProfileFeed posts={posts} />
+          )}
         </View>
       </ScrollView>
     </ScreenLayout>
