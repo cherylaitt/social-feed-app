@@ -3,8 +3,11 @@ import { ThemedView } from "@/components/themed-view";
 import Avatar from "@/components/ui/avatar";
 import { Post } from "@/types/post";
 import { formatRelativeTime } from "@/utils/format";
-import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { useEffect, useMemo, useRef } from "react";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetFlatList,
+} from "@gorhom/bottom-sheet";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { View } from "react-native";
 
 type Props = {
@@ -31,6 +34,18 @@ export function CommentsBottomSheet({ post, onClose }: Props) {
     }
   };
 
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        pressBehavior="close"
+      />
+    ),
+    [],
+  );
+
   const renderComment = ({ item }: { item: any }) => (
     <View className="flex-row gap-3 px-4 py-3 border-b border-neutral-100 dark:border-neutral-900">
       <Avatar uri={item.author?.avatarUrl} />
@@ -55,6 +70,7 @@ export function CommentsBottomSheet({ post, onClose }: Props) {
       snapPoints={snapPoints}
       enablePanDownToClose
       onChange={handleSheetChanges}
+      backdropComponent={renderBackdrop}
       backgroundStyle={{ backgroundColor: "#ffffff" }}
     >
       <ThemedView className="flex-1">
