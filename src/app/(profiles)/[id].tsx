@@ -161,7 +161,7 @@ export default function UserProfileScreen() {
               type="smallBold"
               style={!isFollowing ? { color: "#ffffff" } : undefined}
             >
-              {isFollowing ? "Following" : "Follow"}
+              {isFollowing ? "Unfollow" : "Follow"}
             </ThemedText>
           </Button>
         </View>
